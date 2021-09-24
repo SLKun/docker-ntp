@@ -4,10 +4,10 @@ services:
   ntp-server:
     build: .
     image: cturra/ntp:latest
+    container_name: ntp-server
     restart: always
-    privileged: true
-    depends_on:
-      - ntp-client
+    ports: 
+      - 123:123/udp
     read_only: true
     tmpfs:
       - /etc/chrony:rw,mode=1750
@@ -20,9 +20,11 @@ services:
   ntp-client:
     build: .
     image: cturra/ntp:latest
+    container_name: ntp-client
     restart: always
-    privileged: true
     read_only: true
+    ports: 
+      - 123:123/udp
     tmpfs:
       - /etc/chrony:rw,mode=1750
       - /run/chrony:rw,mode=1750
